@@ -3,18 +3,24 @@ import Name from './components/Name'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '4048894994' }
   ]) 
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
+  }
+
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
   }
 
   const addName = (event) => {
     event.preventDefault()
     const person = {
       name: newName,
+      number: newNumber
     }
     //const personsCopy = [...persons]
     if(persons.some(obj => obj.name === person.name)) {
@@ -22,6 +28,7 @@ const App = () => {
     } else {
       setPersons(persons.concat(person))
       setNewName('')
+      setNewNumber('')
     }
   }
 
@@ -33,13 +40,19 @@ const App = () => {
           name: <input value={newName} onChange={handleNameChange}/>
         </div>
         <div>
+          number: <input value={newNumber} onChange={handleNumberChange}/>
+        </div>
+        <div>
           <button type="submit">add</button>
         </div>
 
       </form>
       <h2>Numbers</h2>
       {persons.map(person => 
-        <Name key={person.name} name={person.name}/>
+        <Name 
+          key={person.name} 
+          name={person.name}
+          number={person.number}/>
       )}
     </div>
   )

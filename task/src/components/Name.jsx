@@ -1,6 +1,6 @@
 const Name = (props) => {
     return (
-        <div>{props.name}</div>
+        <div>{props.name}: {props.number}</div>
     )
 }
 export default Name

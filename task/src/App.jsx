@@ -17,8 +17,12 @@ const App = () => {
       name: newName,
     }
     //const personsCopy = [...persons]
-    setPersons(persons.concat(person))
-    setNewName('')
+    if(persons.some(obj => obj.name === person.name)) {
+      alert(`${person.name} is already added to phonebook`)
+    } else {
+      setPersons(persons.concat(person))
+      setNewName('')
+    }
   }
 
   return (

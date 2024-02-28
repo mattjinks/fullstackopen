@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Person from './components/Person'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 import axios from 'axios'
 import personService from './services/persons'
 
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   useEffect(() => {
     console.log('Get Persons from db')
@@ -45,7 +47,7 @@ const App = () => {
     }
   }
 
-  const addName = (event, id) => {
+  const addName = (event) => {
     event.preventDefault()
     const person = {
       name: newName,
@@ -65,6 +67,10 @@ const App = () => {
                   : contact
               )
             )
+            setNotificationMessage(`Updated ${returnedPerson.name}`)
+            setTimeout(() => {
+              setNotificationMessage(null)
+            }, 5000)
             setNewName('')
             setNewNumber('')
           })
@@ -74,6 +80,10 @@ const App = () => {
         .create(person)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setNotificationMessage(`Added ${returnedPerson.name}`)
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, 5000)
           setNewName('')
           setNewNumber('')
         })
@@ -86,6 +96,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage}/>
       <Filter handleSearch={handleSearch}/>
       <h2>add new</h2>
       <PersonForm

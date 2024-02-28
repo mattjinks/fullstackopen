@@ -34,6 +34,17 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const handleDeletePerson = (id, name) => {
+    if(window.confirm(`Delete ${name}?`)) {
+      personService
+      .remove(id)
+      .then(returnedPerson => {
+        console.log('Removed', returnedPerson)
+        setPersons(persons.filter(person => person.id !== id))
+      })
+    }
+  }
+
   const addName = (event) => {
     event.preventDefault()
     const person = {
@@ -74,7 +85,8 @@ const App = () => {
         <Person 
           key={person.name} 
           name={person.name}
-          number={person.number}/>
+          number={person.number}
+          handleDeletePerson={() => handleDeletePerson(person.id, person.name)}/>
       )}
     </div>
   )

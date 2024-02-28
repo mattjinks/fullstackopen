@@ -12,6 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   const [notificationMessage, setNotificationMessage] = useState(null)
+  const [className, setClassName] = useState('notification')
 
   useEffect(() => {
     console.log('Get Persons from db')
@@ -67,6 +68,7 @@ const App = () => {
                   : contact
               )
             )
+            setClassName('notification')
             setNotificationMessage(`Updated ${returnedPerson.name}`)
             setTimeout(() => {
               setNotificationMessage(null)
@@ -74,12 +76,23 @@ const App = () => {
             setNewName('')
             setNewNumber('')
           })
+          .catch(error => {
+            setClassName('error')
+            setNotificationMessage(
+              `Information of '${existingPerson.name}' has already been removed from server`
+            )
+            setTimeout(() => {
+              setNotificationMessage(null)
+            }, 5000)
+            setPersons(persons.filter(n => n.id !== existingPerson.id))
+          })
       }
     } else {
       personService
         .create(person)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setClassName('notification')
           setNotificationMessage(`Added ${returnedPerson.name}`)
           setTimeout(() => {
             setNotificationMessage(null)
@@ -96,7 +109,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notificationMessage}/>
+      <Notification message={notificationMessage} className={className}/>
       <Filter handleSearch={handleSearch}/>
       <h2>add new</h2>
       <PersonForm

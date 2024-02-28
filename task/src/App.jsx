@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Person from './components/Person'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
+import axios from 'axios'
 
 
 const App = () => {
@@ -31,13 +32,19 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-    //const personsCopy = [...persons]
+
     if(persons.some(obj => obj.name === person.name)) {
       alert(`${person.name} is already added to phonebook`)
     } else {
-      setPersons(persons.concat(person))
-      setNewName('')
-      setNewNumber('')
+      axios
+      .post('http://localhost:3001/persons', person)
+      .then(response => {
+        console.log(response)
+        setPersons(persons.concat(response.data))
+        setNewName('')
+        setNewNumber('')
+      })
+
     }
   }
 

@@ -45,15 +45,30 @@ const App = () => {
     }
   }
 
-  const addName = (event) => {
+  const addName = (event, id) => {
     event.preventDefault()
     const person = {
       name: newName,
       number: newNumber
     }
     console.log(`Post ${person.name} to db`)
-    if(persons.some(obj => obj.name === person.name)) {
-      alert(`${person.name} is already added to phonebook`)
+    const existingPerson = persons.find(obj => obj.name === person.name) 
+    if(existingPerson) {
+      if(window.confirm(`${existingPerson.name} already added to phonebook, replace the old number with new one?`)) {
+        personService
+          .update(existingPerson.id, person)
+          .then(returnedPerson => {
+            setPersons(
+              persons.map(contact => 
+                contact.id === returnedPerson.id
+                  ? returnedPerson
+                  : contact
+              )
+            )
+            setNewName('')
+            setNewNumber('')
+          })
+      }
     } else {
       personService
         .create(person)

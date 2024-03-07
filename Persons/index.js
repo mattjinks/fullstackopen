@@ -3,7 +3,18 @@ const app = express()
 var morgan = require('morgan')
 
 app.use(express.json())
-app.use(morgan('tiny'))
+
+app.use(morgan(function (tokens, req, res) {
+    //console.log(req.body)
+    return [
+      tokens.method(req, res),
+      tokens.url(req, res),
+      tokens.status(req, res),
+      tokens.res(req, res, 'content-length'), '-',
+      tokens['response-time'](req, res), 'ms',
+      JSON.stringify(req.body)
+    ].join(' ')
+  }))
 
 let persons = [
     {
@@ -57,7 +68,7 @@ app.delete('/api/persons/:id', (request, response) => {
 
 app.post('/api/persons', (request, response) => {
     const body = request.body
-    console.log(persons)
+    //console.log(persons)
     if(!body.name) {
         return response.status(400).json({
             error: 'name missing'
@@ -82,7 +93,7 @@ app.post('/api/persons', (request, response) => {
         number: body.number || ''
     }
     persons = persons.concat(person)
-    console.log(persons)
+    //console.log(persons)
     response.json(person)
 })
 

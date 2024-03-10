@@ -8,7 +8,7 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "@powershell Remove-Item -Path dist -Recurse -Force && cd ..\\Frontend && npm run build && @powershell Copy-Item -Path dist -Destination ..\\fullstackopen -Recurse",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push origin notes_backend_part_3"
   },
   "repository": {
     "type": "git",

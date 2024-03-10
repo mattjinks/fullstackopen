@@ -1,34 +1,39 @@
 {
-  "notes": [
+  "persons": [
     {
-      "id": "1",
-      "content": "HTML is easy",
-      "important": true
+      "name": "Arto Hellas",
+      "number": "040-123456",
+      "id": "1"
     },
     {
-      "id": "2",
-      "content": "Browser can execute only JavaScript",
-      "important": false
+      "id": "f503",
+      "name": "Alan",
+      "number": ""
     },
     {
-      "id": "3",
-      "content": "GET and POST are the most important methods of HTTP protocol",
-      "important": true
+      "id": "b4a8",
+      "name": "uuu",
+      "number": ""
     },
     {
-      "id": "23fd",
-      "content": "Dogs are fun",
-      "important": true
+      "id": "59b8",
+      "name": "tim",
+      "number": ""
     },
     {
-      "id": "9962",
-      "content": "girls are fun",
-      "important": false
+      "id": "fa0d",
+      "name": "tim",
+      "number": ""
     },
     {
-      "id": "6cef",
-      "content": "a new note...",
-      "important": true
+      "id": "a81e",
+      "name": "",
+      "number": ""
+    },
+    {
+      "name": "dug",
+      "number": "",
+      "id": "9a2e"
     }
   ]
 }

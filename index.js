@@ -1,13 +1,11 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
-
 const cors = require('cors')
-
 app.use(cors())
-
 app.use(express.json())
-
 app.use(express.static('dist'))
+const Note = require('./models/note')
 
 let notes = [
   {
@@ -32,23 +30,25 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/notes', (request, response) => {
+  Note.find({}).then(notes => {
     response.json(notes)
+  })
 })
 
 app.get('/api/notes/:id', (request, response) => {
-    const id = Number(request.params.id)
-    //console.log(id)
-    const note = notes.find(note => note.id === id)
-    //console.log(note)
-    //response.json(note)
-    if(note) {
-        console.log('Found Note')
-        response.json(note)
-        console.log(response)
-    } else {
-        response.status(404).end()
-        console.log(response)
-    }
+    // const id = Number(request.params.id)
+    // const note = notes.find(note => note.id === id)
+    // if(note) {
+    //     console.log('Found Note')
+    //     response.json(note)
+    //     console.log(response)
+    // } else {
+    //     response.status(404).end()
+    //     console.log(response)
+    // }
+    Note.findById(request.params.id).then(note => {
+      response.json(note)
+    })
 })
 
 app.delete('/api/notes/:id', (request, response) => {
@@ -66,15 +66,14 @@ app.post('/api/notes', (request, response) => {
     })
   }
 
-  const note = {
+  const note = new Note({
     content: body.content,
     important: body.important || false,
-    id: generateId(),
-  }
+  })
 
-  notes = notes.concat(note)
-
-  response.json(note)
+  note.save().then(savedNote => {
+    response.json(savedNote)
+  })
 })
 
 const PORT = process.env.PORT || 3001

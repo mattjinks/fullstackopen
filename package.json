@@ -22,6 +22,7 @@
   "homepage": "https://github.com/mattjinks/fullstackopen/tree/3_a#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "mongoose": "^8.2.1"
   },
